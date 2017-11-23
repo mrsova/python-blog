@@ -1,15 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Джанга</title>
-</head>
-<body>
-    <h1>{{ instance.title}}</h1>    
-       {{instance.id }} <br/>     
-       {{instance.title }} <br/>
-       {{instance.content }} <br/>
-       {{instance.updated }} <br/>
-       {{instance.timestamp }} <br/><br/>
-</body>
-</html>
+{% extends "base.html" %}
+{% block head_title %}
+  {{instance.title}} | {{block.super}}
+{% endblock head_title %}
+
+
+{% block content %}
+  <h1>{{ instance.title}}</h1>    
+  {{instance.id }} <br/>     
+  {{instance.title }} <br/>
+  {{instance.content }} <br/>
+  {{instance.updated }} <br/>
+  {{instance.timestamp }} <br/><br/>
+{% endblock content %}
+
