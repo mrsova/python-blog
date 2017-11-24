@@ -8,7 +8,7 @@ from .forms import PostForm
 from .models import Post
 #cоздание поста
 def post_create(request):
-    form = PostForm(request.POST or None)
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instanse = form.save(commit=False)
         instanse.save()
@@ -53,8 +53,7 @@ def post_list(request):
     end_index = index + 3 if index <= max_index - 3 else max_index
     # Get our new page range. In the latest versions of Django page_range returns 
     # an iterator. Thus pass it to list, to make our slice possible again.
-    page_range = list(paginator.page_range)[start_index:end_index]
-    print(page_range)
+    page_range = list(paginator.page_range)[start_index:end_index] 
 
     context = {
         "object_list": queryset,
@@ -67,7 +66,7 @@ def post_list(request):
 #обновление поста
 def post_update(request, id=None):
     instance = get_object_or_404(Post, id=id)
-    form = PostForm(request.POST or None, instance=instance)
+    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         instanse = form.save(commit=False)
         instanse.save()       
