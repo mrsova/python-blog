@@ -12,5 +12,10 @@ class Post(models.Model):
         return self.title
 
     def get_absolut_url(self):
+        #reverse(viewname[, urlconf=None, args=None, kwargs=None, current_app=None])
         return reverse("posts:detail", kwargs={"id":self.id})
         # return "/posts/%s/" %(self.id)
+    
+    class Meta:
+        #Сортировка
+        ordering = ["-updated"]
