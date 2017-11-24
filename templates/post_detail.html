@@ -5,11 +5,11 @@
 
 
 {% block content %}
-  <h1>{{ instance.title}}</h1>    
-  {{instance.id }} <br/>     
-  {{instance.title }} <br/>
-  {{instance.content }} <br/>
-  {{instance.updated }} <br/>
-  {{instance.timestamp }} <br/><br/>
+<div class="coll-sm-6 coll-sm-offest-3">
+  <h1>{{ instance.title}} <small> {{instance.timestamp }}</small></h1>    
+  {{instance.content | linebreaks}} <br/>
+</div>
 {% endblock content %}
+
+
 
