@@ -11,6 +11,11 @@
       <div class="thumbnail">
         <div class="caption">
           <h3><a href='{{ obj.get_absolut_url }}'>{{obj.title }}</a></h3>
+          {% if obj.image %}
+          <img src="{{obj.image.url}}" class="img-responsive">
+         <!--  {{obj.image_small.url}} -->
+          <img src="{{obj.image_big.url}}" class="img-responsive">
+          {% endif %}
           <p>{{obj.content|linebreaks|truncatechars:120}}</p>
            <hr>
            <small><b>Обновлено:</b> {{obj.updated | timesince}}</small>             
