@@ -7,6 +7,7 @@ class PostModelAdmin(admin.ModelAdmin):
     list_display = ["title", "updated", "timestamp"]
     list_filter = ["updated", "timestamp"]
     search_fields = ["title", "content"]
+    # exclude = ["photo_medium","photo_thumb"]
 
     class Meta:
         model = Post
