@@ -3,16 +3,50 @@
   {{instance.title}} | {{block.super}}
 {% endblock head_title %}
 
+{% block post_detail_link %}
+<li><a href="{{instance.get_absolute_url }}">{{instance.title}}</a></li>  
+{% endblock %}  
 
 {% block content %}
 <div class="coll-sm-6 coll-sm-offest-3">
   <h1>{{ instance.title}} 
-    <small> {{instance.timestamp }}</small>
+    <small>
+          {% if instanse.draft %} 
+            <span style='color:red'>Draft</span>
+           {% endif %} {{instance.publish }}
+    </small>
   </h1>    
   {% if instance.image %}
     <img src="{{instance.image.url}}" class="img-responsive">
   {% endif %}
-  {{instance.content | linebreaks}} <br/>
+  <br/>  
+  {{instance.content | linebreaks|safe}} 
+  <br/>
+  {% if instance.user.get_full_name %}
+       <b>Автор:</b> {{instance.user.get_full_name}}  
+  {% endif %} 
+  <hr>
+  <div>
+
+    <p class="lead">Коментарии</p>
+    <form action="." method="POST">
+        {%csrf_token%}
+        {{comment_form}}
+        <input type="submit" value="Отправить" class="btn btn-default">
+    </form>     
+
+    {% for comment in comments %}
+      <!--так можно обратится к связному объекту через другой
+        {{comment.content_object.content}}
+      -->
+      <div class="">
+        {{comment.content}}<br/>
+        <small>via {{comment.user}} | {{comment.timestamp|timesince}} ago</small>
+        <hr>
+      </div>
+    {%endfor%}
+  </div>
+  
 </div>
 {% endblock content %}
 

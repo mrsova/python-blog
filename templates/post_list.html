@@ -3,24 +3,33 @@
 {% block content %}
 <div class="coll-sm-6 coll-sm-offest-3">
 
-<h1>{{ title}}</h1>
-  
+<h1>Посты</h1>
+<form action="" methon="GET">
+  <input type="text" name="q" placeholder="Поиск" value="{{ request.GET.q}}"/>
+  <input type="submit" value="Найти">
+</form>
 {% for obj in object_list %}
 <div class="row">      
     <div class="col-sm-12">
       <div class="thumbnail">
         <div class="caption">
           <h3><a href='{{ obj.get_absolut_url }}'>{{obj.title }}</a></h3>
+                {% if obj.draft %} 
+            <span style='color:red'>Draft</span>
+           {% endif %} 
           {% if obj.image %}
-          <img src="{{obj.image.url}}" class="img-responsive">
-         <!--  {{obj.image_small.url}} -->
-          <img src="{{obj.image_big.url}}" class="img-responsive">
+            <img src="{{obj.image.url}}" class="img-responsive">
           {% endif %}
-          <p>{{obj.content|linebreaks|truncatechars:120}}</p>
+          <p>{{obj.content|linebreaks|truncatechars:120}}</p>          
            <hr>
+           {% if obj.user.get_full_name %}
+              <small>{{ obj.user.get_full_name}}</small>
+           {% endif %}
+           <br>
            <small><b>Обновлено:</b> {{obj.updated | timesince}}</small>             
            <br>
-           <small><b>Создано:</b> {{obj.timestamp }}</small>
+            <small><b>Создано:</b> {{obj.publish }}</small>
+           
            <hr>
           <p><a href="{{ obj.get_absolut_url }}" class="btn btn-primary" role="button">Смотреть</a> </p>
         </div>
@@ -28,25 +37,27 @@
     </div>
   </div>
 {% endfor %}
-<div class="pagination">
-    <span class="step-links">
-        {% if object_list.has_previous %}
-            <a href="?{{page_request_var}}={{ object_list.previous_page_number }}"><-</a>
-        {% endif %}
-        <span class="current">         
-          {% for item in page_range %}                        
-             {% if object_list.number == item %}
-                {{item}} 
-              {% else %}     
-                  <a href="?{{page_request_var}}={{item}}">{{ item }}</a> 
-              {% endif %}         
-          {% endfor%}
-        </span>
-        {% if object_list.has_next %}
-            <a href="?{{page_request_var}}={{ object_list.next_page_number }}">-></a>
-        {% endif %}
-    </span>
-</div>
+{% if page_range|length > 1 %}
+  <div class="pagination">
+      <span class="step-links">
+          {% if object_list.has_previous %}
+              <a href="?{{page_request_var}}={{ object_list.previous_page_number }}{%if request.GET.q%} &q={{request.GET.q}}{%endif%}"><-</a>
+          {% endif %}
+          <span class="current">         
+            {% for item in page_range %}                        
+               {% if object_list.number == item %}
+                  {{item}} 
+                {% else %}     
+                    <a href="?{{page_request_var}}={{item}}{%if request.GET.q%} &q={{request.GET.q}}{%endif%}">{{ item }}</a> 
+                {% endif %}         
+            {% endfor%}
+          </span>
+          {% if object_list.has_next %}
+              <a href="?{{page_request_var}}={{ object_list.next_page_number }}{%if request.GET.q%} &q={{request.GET.q}}{%endif%}">-></a>
+          {% endif %}
+      </span>
+  </div>
+{% endif %}
 </div>
 {% endblock content %}
 

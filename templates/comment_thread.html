@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block head_title %}
+  {{instance.title}} | {{block.super}}
+{% endblock head_title %}
+
+
+{% block content %}
+{{comment}}
+
+
+
+<div class="coll-sm-6 coll-sm-offest-3">
+      <!--так можно обратится к связному объекту через другой
+        {{comment.content_object.content}}
+      -->
+      <div class="">
+        {{comment.content}}<br/>
+        <small>via {{comment.user}} | {{comment.timestamp|timesince}} ago</small>
+        <hr>
+      </div>
+
+  
+</div>
+{% endblock content %}
+
+
+

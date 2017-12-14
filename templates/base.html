@@ -17,10 +17,25 @@
 
 <div class="container">
     {% include "messages_display.html" %}
+    <ol class="breadcrumb">
+      <li><a href="{% url 'posts:list'%}">Home</a></li>      
+      {% block post_detail_link %}
+      {% endblock %}    
+      {% if not request.user.is_authenticated %}
+      <li class="pull-right"><a href="{% url 'login'%}">Login</a></li>
+      <li class="pull-right"><a href="{% url 'register'%}">Register</a></li>
+      {% else %}
+      <li class="pull-right"><a href="{% url 'logout'%}">Logout</a></li>
+      {% endif %}
+    </ol>
     {% block content %}{% endblock content %}
 </div>
 </div>
 <!-- Latest compiled and minified JavaScript -->
+<script
+  src="http://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 </html>
